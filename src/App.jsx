@@ -26,7 +26,7 @@ const App = () => {
     );
   }, []);
 
-  const fetchWeather = async (lat, lon) => {
+  const fetchWeather = async (lat, lon, cityName = "Current Location") => {
     try {
       // Fetch weather data
       const weatherResponse = await axios.get(
@@ -44,26 +44,10 @@ const App = () => {
         }
       );
       setWeatherData(weatherResponse.data);
-
-      // Call the serverless API function for geocoding
-      const locationResponse = await axios.get(`/api/geocode`, {
-        params: {
-          latitude: lat,
-          longitude: lon,
-        },
-      });
-
-      // Check if the location response contains the locality (city name)
-      if (locationResponse.data && locationResponse.data.locality) {
-        setCity(locationResponse.data.locality);
-      } else {
-        console.warn(
-          "City not found using reverse geocoding, setting fallback name"
-        );
-        setCity("Unknown location");
-      }
+      setCity(cityName);
     } catch (error) {
-      console.error("Error fetching weather or location data:", error);
+      console.error("Error fetching weather data:", error);
+      setCity("Location error");
     }
   };
 
@@ -82,8 +66,7 @@ const App = () => {
         const { latitude, longitude, name } = geoResponse.data.results[0];
         setLatitude(latitude);
         setLongitude(longitude);
-        setCity(name);
-        fetchWeather(latitude, longitude);
+        fetchWeather(latitude, longitude, name); // Pass city name to fetchWeather
       } else {
         setCity("City not found");
       }
