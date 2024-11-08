@@ -26,7 +26,7 @@ const App = () => {
     );
   }, []);
 
-  const fetchWeather = async (lat, lon, cityName = "Current Location") => {
+  const fetchWeather = async (lat, lon, cityName = "Your Location") => {
     try {
       // Fetch weather data
       const weatherResponse = await axios.get(
@@ -48,6 +48,10 @@ const App = () => {
     } catch (error) {
       console.error("Error fetching weather data:", error);
       setCity("Location error");
+      // Show an alert on error
+      window.alert(
+        "There was an error fetching the weather data. Please try again."
+      );
     }
   };
 
@@ -69,10 +73,18 @@ const App = () => {
         fetchWeather(latitude, longitude, name); // Pass city name to fetchWeather
       } else {
         setCity("City not found");
+        // Show an alert if the city is not found
+        window.alert(
+          "City not found. Please check the spelling or try another city."
+        );
       }
     } catch (error) {
       console.error("Error fetching coordinates:", error);
       setCity("Search error");
+      // Show an alert on error
+      window.alert(
+        "Please Enter a Current city ! There was an error fetching the city coordinates. Please try again."
+      );
     }
   };
 
