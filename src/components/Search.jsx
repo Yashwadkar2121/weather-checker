@@ -1,3 +1,4 @@
+// src/components/Search.js
 import React from "react";
 
 const Search = ({ city, setCity, handleSearch }) => {

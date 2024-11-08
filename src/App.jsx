@@ -1,3 +1,4 @@
+// src/App.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Weather from "./components/Weather";
@@ -44,17 +45,15 @@ const App = () => {
       );
       setWeatherData(weatherResponse.data);
 
-      // Try reverse geocoding for city name
-      const locationResponse = await axios.get(
-        "https://geocoding-api.open-meteo.com/v1/reverse",
-        {
-          params: {
-            latitude: lat,
-            longitude: lon,
-          },
-        }
-      );
+      // Call the serverless API function for geocoding
+      const locationResponse = await axios.get(`/api/geocode`, {
+        params: {
+          latitude: lat,
+          longitude: lon,
+        },
+      });
 
+      // Check if the location response contains the locality (city name)
       if (locationResponse.data && locationResponse.data.locality) {
         setCity(locationResponse.data.locality);
       } else {
@@ -64,7 +63,7 @@ const App = () => {
         setCity("Unknown location");
       }
     } catch (error) {
-      console.error("Error fetching weather data:", error);
+      console.error("Error fetching weather or location data:", error);
     }
   };
 
