@@ -86,7 +86,7 @@ const App = () => {
 
   return (
     <div>
-      <h1 className="text-2xl text-center p-5 text-white bg-[#535657]">
+      <h1 className="text-2xl md:text-4xl text-center p-5 text-white bg-[#535657]">
         Weather App
       </h1>
 
