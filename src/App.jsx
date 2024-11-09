@@ -1,12 +1,11 @@
-// src/App.js
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Weather from "./components/Weather";
 import Search from "./components/Search";
 
 const App = () => {
-  const [latitude, setLatitude] = useState(null);
-  const [longitude, setLongitude] = useState(null);
+  const [, setLatitude] = useState(null);
+  const [, setLongitude] = useState(null);
   const [weatherData, setWeatherData] = useState(null);
   const [city, setCity] = useState("Loading location...");
   const [searchCity, setSearchCity] = useState("");
@@ -28,7 +27,6 @@ const App = () => {
 
   const fetchWeather = async (lat, lon, cityName = "Your Location") => {
     try {
-      // Fetch weather data
       const weatherResponse = await axios.get(
         "https://api.open-meteo.com/v1/forecast",
         {
@@ -48,7 +46,6 @@ const App = () => {
     } catch (error) {
       console.error("Error fetching weather data:", error);
       setCity("Location error");
-      // Show an alert on error
       window.alert(
         "There was an error fetching the weather data. Please try again."
       );
@@ -70,10 +67,10 @@ const App = () => {
         const { latitude, longitude, name } = geoResponse.data.results[0];
         setLatitude(latitude);
         setLongitude(longitude);
-        fetchWeather(latitude, longitude, name); // Pass city name to fetchWeather
+        fetchWeather(latitude, longitude, name);
+        setSearchCity(""); // Clear the input after search
       } else {
         setCity("City not found");
-        // Show an alert if the city is not found
         window.alert(
           "City not found. Please check the spelling or try another city."
         );
@@ -81,16 +78,18 @@ const App = () => {
     } catch (error) {
       console.error("Error fetching coordinates:", error);
       setCity("Search error");
-      // Show an alert on error
       window.alert(
-        "Please Enter a Current city ! There was an error fetching the city coordinates. Please try again."
+        "Please enter a current city! There was an error fetching the city coordinates. Please try again."
       );
     }
   };
 
   return (
     <div>
-      <h1>Weather App</h1>
+      <h1 className="text-2xl text-center p-5 text-white bg-[#535657]">
+        Weather App
+      </h1>
+
       <Search
         city={searchCity}
         setCity={setSearchCity}
